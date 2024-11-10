@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Broken Access Control</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <h1>Testiranje Broken Access Control</h1>
+
+    <div class="instructions">
+        <p><strong>Upute:</strong>Prijavite se kao korisnik ili admin i pokušajte pristupiti administrativnoj stranici. Kada je kontrola pristupa omogućena, samo admin ima pristup. Kada je onemogućena, svi korisnici imaju pristup. Ova demonstracija prikazuje ponašanje sustava kod neovlaštenih pristupa zaštićenim resursima.</p>
+    </div>
+    
+    <p>Trenutno ste prijavljeni kao: <span id="user-status"><%= user ? user.role : 'niste prijavljeni' %></span></p>
+    
+    <button onclick="loginAs('user')">Prijavi se kao korisnik</button>
+    <button onclick="loginAs('admin')">Prijavi se kao admin</button>
+
+    <h2>Testiranje pristupa administrativnim stranicama</h2>
+    <p>
+        <button onclick="window.location.href='/admin'">Pokušaj pristupa administratorskoj stranici</button>
+    </p>
+
+    <p>Trenutno je kontrola pristupa: <%= accessControlEnabled ? 'omogućena' : 'onemogućena' %></p>
+    <button onclick="toggleAccessControl(true)">Uključi kontrolu pristupa</button>
+    <button onclick="toggleAccessControl(false)">Isključi kontrolu pristupa</button>
+
+    <div>
+        <a href="/">Povratak na početnu stranicu</a>
+    </div>
+    <script src="/scripts/bac.js"></script>
+</body>
+</html>

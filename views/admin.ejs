@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Stranica</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <h1>Dobrodošli na administratorsku stranicu!</h1>
+    <p>Ovdje su prikazani osjetljivi podaci dostupni samo administratorima.</p>
+    <% if (user) { %>
+        <p>Prijavljeni ste kao <%= user.role %></p>
+    <% } %>
+    <a href="/bac">Povratak na BAC Test</a>
+</body>
+</html>

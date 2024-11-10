@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cross-site Scripting (XSS)</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <h1>Testiranje XSS napada</h1>
+    
+    <div class="instructions">
+        <p>
+            Unesite JavaScript kod u komentar ili korisnicko ime (npr. `&lt;script&gt;alert('XSS Attack!');&lt;/script&gt;`) i pošaljite. 
+            Ako je zaštita uključena, kod se sanitizira i neće se izvršiti; ako nije, prikazat će se poruka. 
+            Ova demonstracija prikazuje važnost filtriranja korisničkog unosa za zaštitu od XSS napada.
+        </p>
+    </div>
+
+    <button id="toggleSanitization" onclick="toggleSanitization()">
+        Zaštita: <%= sanitizationEnabled ? 'ON' : 'OFF' %>
+    </button>
+    
+    <form action="/add-comment" method="POST" onsubmit="return validateAndSanitizeForm()">
+        <label for="user_name">Ime korisnika:</label>
+        <input type="text" id="user_name" name="user_name" required><br>
+    
+        <label for="comment">Komentar:</label><br>
+        <textarea id="comment" name="comment" required></textarea><br><br>
+    
+        <button type="submit">Dodaj komentar</button>
+    </form>
+
+    <h2>Komentari</h2>
+    <div id="commentsSection">
+        <% if (comments && comments.length > 0) { %>
+            <ul>
+                <% comments.forEach(function(comment) { %>
+                    <li>
+                        <% if (!sanitizationEnabled) { %>
+                            <strong><%- comment.user_name %>:</strong>
+                            <%- comment.comment %>
+                        <% } else { %>
+                            <strong><%= comment.user_name %>:</strong>
+                            <%= comment.comment %>
+                        <% } %>                    
+                    </li>
+                <% }); %>
+            </ul>
+        <% } else { %>
+            <p>Nema komentara za prikazivanje.</p>
+        <% } %>
+    </div>
+    <div>
+        <a href="/">Povratak na početnu stranicu</a>
+    </div>
+    <script src="/scripts/xss.js"></script>
+</body>
+</html>
